@@ -6,15 +6,16 @@ var control = (function (){
   var feedback = root.querySelector('#feedback');
   var scaleNumber = root.querySelector('#scale');
   var email = root.querySelector('#email');
+  var loadingText = root.querySelector('.loading');
   // var decodedText = document.querySelector('ul');
 
   function sendFeedBack() {
     submitButton.addEventListener('click', function(){
 
-      loadingText.innerText = 'LOADING!'
+      loadingText.innerText = 'LOADING!';
 
       ajax.send(feedback.value, scaleNumber.value, email.value, function(res){
-        loadingText.innerText = ''
+        loadingText.innerText = '';
         // renderText();
       });
     });
@@ -48,7 +49,7 @@ var ajax = (function (){
 
   function send (feedback, scale, email, callback){
     var data = {feedback: feedback, scale: scale, email: email};
-    open('POST', 'decode', data, callback);
+    open('POST', 'exam', data, callback);
   }
 
 
