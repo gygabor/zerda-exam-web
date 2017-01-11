@@ -7,7 +7,7 @@ var control = (function (){
   var scaleNumber = root.querySelector('#scale');
   var email = root.querySelector('#email');
   var loadingText = root.querySelector('.loading');
-  // var decodedText = document.querySelector('ul');
+  var backMessage = document.querySelector('ul');
 
   function sendFeedBack() {
     submitButton.addEventListener('click', function(){
@@ -16,21 +16,29 @@ var control = (function (){
 
       ajax.send(feedback.value, scaleNumber.value, email.value, function(res){
         loadingText.innerText = '';
-        // renderText();
+        renderText(res);
       });
     });
   }
 
-  // function renderText(text){
-  //   ajax.get(function(res){
-  //     var allText = res.all;
-  //     allText.forEach(function(t){
-  //       var li = document.createElement('li');
-  //       li.innerText = t;
-  //       decodedText.appendChild(li);
-  //     })
-  //   });
-  // }
+  function renderText(text){
+    while (backMessage.firstChild){
+      backMessage.removeChild(backMessage.firstChild);
+    };
+    if (text.status === 'ok'){
+      var projects = text.projects;
+      projects.forEach(function(t){
+        var li = document.createElement('li');
+        li.innerText = t;
+        backMessage.appendChild(li);
+      });
+    } else if (text.status === 'error') {
+        var message = text.message;
+        var li = document.createElement('li');
+        li.innerText = text.message;
+        backMessage.appendChild(li);
+    }
+  }
 
 
   return {
@@ -44,7 +52,7 @@ var ajax = (function (){
   var APIEndpoint = 'http://localhost:3000/';
 
   function get (callback){
-    open('GET', 'decode/all', false, callback);
+    open('GET', 'exam', false, callback);
   }
 
   function send (feedback, scale, email, callback){

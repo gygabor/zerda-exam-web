@@ -37,18 +37,26 @@ connection.connect(function (error){
 });
 
 app.post('/exam', urlencodedParser, function a(req, res) {
-  console.log(req.body);
   var validation = (validator.validation(req.body.feedback, req.body.scale, req.body.email));
-  console.log(validation);
-  // //   connection.query('INSERT INTO text (text) VALUES ("' + decodedText + '");', function(err, rows, fields) {
-  // // 		if (err) throw err;
-  // //     var response = {
-  // //       "status": "ok",
-  // //       "text": decodedText
-  // //     }
-  // //   	res.send(response);
-  // //   });
-	// // }
+  if (validation) {
+    connection.query('SELECT project_name FROM projects;', function(err, rows, fields){
+      if (err) throw err;
+      var response = {
+        "status": "ok",
+        "projects": []
+      };
+      rows.forEach( function(row) {
+      response.projects.push(row.project_name);
+      });
+      res.send(response);
+    });
+  } else {
+    response = {
+      "status": "error",
+      "message": "thank you"
+    }
+  res.send(response);
+  }
 });
 
 
