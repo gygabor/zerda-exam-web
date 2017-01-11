@@ -6,7 +6,7 @@ var validator = (function(){
   var words = json[0].words;
 
   function validation (feedback, scale, email){
-    if ((email.indexOf('@') != -1) && (scale >= parseInt(10)) && feedback){
+    if ((email.indexOf('@') != -1) && validNumber(scale) && findWord(feedback)){
       return true
     } else {
       return false;
@@ -23,6 +23,14 @@ var validator = (function(){
       }
     })
     if (findNumber >= 3){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function validNumber(number){
+    if ((parseInt(number) >= 10) && (parseInt(number) > 0)){
       return true;
     } else {
       return false;
