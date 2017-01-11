@@ -53,7 +53,7 @@ app.post('/exam', urlencodedParser, function a(req, res) {
       res.send(response);
     });
   } else {
-    response = {
+    var response = {
       "status": "error",
       "message": "thank you"
     }
