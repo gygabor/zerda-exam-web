@@ -40,7 +40,6 @@ var control = (function (){
     }
   }
 
-
   return {
     init: sendFeedBack
   }
@@ -51,15 +50,10 @@ var ajax = (function (){
 
   var APIEndpoint = 'http://localhost:3000/';
 
-  function get (callback){
-    open('GET', 'exam', false, callback);
-  }
-
   function send (feedback, scale, email, callback){
     var data = {feedback: feedback, scale: scale, email: email};
     open('POST', 'exam', data, callback);
   }
-
 
   function open (method, resource, data, callback){
     var xhr = new XMLHttpRequest();
@@ -75,7 +69,5 @@ var ajax = (function (){
   }
   return {
     send: send,
-    get: get
   }
-
 })();

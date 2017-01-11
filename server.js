@@ -1,3 +1,5 @@
+'use strict';
+
 var mysql = require('mysql');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -58,6 +60,5 @@ app.post('/exam', urlencodedParser, function a(req, res) {
   res.send(response);
   }
 });
-
 
 app.listen(3000);
