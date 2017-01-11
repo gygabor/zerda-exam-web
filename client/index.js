@@ -46,8 +46,8 @@ var ajax = (function (){
     open('GET', 'decode/all', false, callback);
   }
 
-  function send (number, text, callback){
-    var data = {shift: number, text: text};
+  function send (feedback, scale, email, callback){
+    var data = {feedback: feedback, scale: scale, email: email};
     open('POST', 'decode', data, callback);
   }
 
