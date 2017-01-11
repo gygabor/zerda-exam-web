@@ -11,20 +11,37 @@ var control = (function (){
 
   function sendFeedBack() {
     submitButton.addEventListener('click', function(){
+      if (checkEmpty(feedback.value, scaleNumber.value, email.value)){
+        loadingText.innerText = 'LOADING!';
 
-      loadingText.innerText = 'LOADING!';
-
-      ajax.send(feedback.value, scaleNumber.value, email.value, function(res){
-        loadingText.innerText = '';
-        renderText(res);
-      });
+        ajax.send(feedback.value, scaleNumber.value, email.value, function(res){
+          loadingText.innerText = '';
+          renderText(res);
+        });
+      } else {
+        warning();
+      }
     });
   }
 
+  function checkEmpty(feedback, scale, email) {
+    if (feedback === '' || scale === '' || email === ''){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function warning(feedback, scale, email) {
+    deleteList();
+    var li = document.createElement('li');
+    li.innerText = 'Please fill the survey';
+    backMessage.appendChild(li);
+    sendFeedBack();
+  }
+
   function renderText(text){
-    while (backMessage.firstChild){
-      backMessage.removeChild(backMessage.firstChild);
-    };
+    deleteList();
     if (text.status === 'ok'){
       var projects = text.projects;
       projects.forEach(function(t){
@@ -38,6 +55,12 @@ var control = (function (){
         li.innerText = text.message;
         backMessage.appendChild(li);
     }
+  }
+
+  function deleteList(){
+    while (backMessage.firstChild){
+      backMessage.removeChild(backMessage.firstChild);
+    };
   }
 
   return {
